@@ -1,15 +1,33 @@
-## Put comments here that give an overall description of what your
-## functions do
+## Assignment number 2 - Lexical Scoping
+## Based on the Caching the Mean of a Vector example. Just changed x to Matrix, m to im, function names (getinv and setinv) and mean() to solve()
 
-## Write a short comment describing this function
-
-makeCacheMatrix <- function(x = matrix()) {
-
+## This function creates a special "matrix" object that can cache its inverse.
+makeCacheMatrix <- function(x = matrix()) 
+{
+        im <- NULL
+        set <- function(y) 
+        { 
+                x <<- y
+                im <<- NULL
+        }
+        get <- function() x
+        setinv <- function(inverse) im <<- inverse
+        getinv <- function() im
+        list(set = set, get = get, setinv = setinv, getinv = getinv)
 }
 
 
-## Write a short comment describing this function
-
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+## This functon returns a matrix that is the inverse of 'x'
+cacheSolve <- function(x, ...) 
+{
+        x <- im$getinv()
+        if (!is.null(im)) 
+        {
+                message("getting cached data")
+                return(im)
+        }
+        data <- x$get()
+        im <- solve(data, ...)
+        x$setInverse(im)
+        im
 }
